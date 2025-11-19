@@ -31,7 +31,7 @@ export default function OvergroundHomepage() {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   // Magnetic cursor effect
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
