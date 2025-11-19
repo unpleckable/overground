@@ -7,7 +7,15 @@ import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'fra
 export default function OvergroundHomepage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isLoading, setIsLoading] = useState(true);
   const heroRef = useRef(null);
+  const currentYear = new Date().getFullYear();
+  
+  // Loading screen
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
   
   // Smooth scroll setup
   useEffect(() => {
@@ -75,6 +83,34 @@ export default function OvergroundHomepage() {
 
   return (
     <div className="bg-black text-white min-h-screen overflow-x-hidden">
+      {/* Loading Screen */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 bg-black z-[100] flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 1.2, opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.h1 
+                className="text-6xl sm:text-8xl font-black tracking-tighter"
+                initial={{ letterSpacing: "0.5em" }}
+                animate={{ letterSpacing: "-0.05em" }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              >
+                OVERGROUND
+              </motion.h1>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Custom Cursor */}
       <motion.div
         className="hidden lg:block fixed w-4 h-4 bg-white mix-blend-difference rounded-full pointer-events-none z-50"
@@ -161,18 +197,23 @@ export default function OvergroundHomepage() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Hero Section with Parallax */}
+      {/* Hero Section with Video Background */}
       <section ref={heroRef} className="relative h-screen mt-16 overflow-hidden">
         <motion.div 
           style={{ y }}
           className="absolute inset-0"
         >
-          <img 
-            src="https://images.unsplash.com/photo-1558769132-cb1aea8f4bf5?w=1600&q=80"
-            alt="Hero"
+          {/* Video Background */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover scale-110"
-          />
-          <div className="absolute inset-0 bg-black/40" />
+          >
+            <source src="https://cdn.coverr.co/videos/coverr-stylish-woman-standing-in-front-of-graffiti-7916/1080p.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/50" />
         </motion.div>
         
         <motion.div 
@@ -378,7 +419,7 @@ export default function OvergroundHomepage() {
           </div>
           
           <div className="border-t border-white/10 pt-8 text-center text-gray-400 text-sm">
-            © 2024 OVERGROUND. All rights reserved.
+            © {currentYear} OVERGROUND. All rights reserved.
           </div>
         </div>
       </footer>
