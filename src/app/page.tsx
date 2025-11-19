@@ -90,54 +90,27 @@ export default function OvergroundHomepage() {
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
 
-      {/* Navigation */}
-      <motion.div 
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 0.3, duration: 0.6 }}
-  className="hidden md:flex space-x-8"
+     {/* Navigation */}
+<motion.nav 
+  initial={{ y: -100 }}
+  animate={{ y: 0 }}
+  transition={{ duration: 0.6, ease: "easeOut" }}
+  className="fixed top-0 w-full bg-black/90 backdrop-blur-md z-50 border-b border-white/10"
 >
-  {[
-    { label: 'NEW IN', href: '/shop' },
-    { label: 'COLLECTIONS', href: '/shop' },
-    { label: 'SHOP', href: '/shop' },
-    { label: 'ABOUT', href: '/about' },
-  ].map((item, idx) => (
-    <motion.a
-      key={item.label}
-      href={item.href}
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.1 * idx, duration: 0.5 }}
-      whileHover={{ y: -2 }}
-      className="hover:text-gray-300 transition"
-    >
-      {item.label}
-    </motion.a>
-  ))}
-</motion.div>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-between items-center h-16">
+      {/* Logo */}
+      <div className="text-2xl font-black tracking-tighter">
+        OVERGROUND
+      </div>
 
-            {/* Icons */}
-            <div className="flex items-center space-x-4">
-              <Search className="w-5 h-5 cursor-pointer hover:text-gray-300 transition hidden sm:block" />
-              <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-gray-300 transition" />
-              <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
-          </div>
-        </div>
-
-       <AnimatePresence>
-  {mobileMenuOpen && (
-    <motion.div 
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: 'auto', opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="md:hidden border-t border-white/10 overflow-hidden"
-    >
-      <div className="px-4 py-4 space-y-3">
+      {/* Desktop Menu */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+        className="hidden md:flex space-x-8"
+      >
         {[
           { label: 'NEW IN', href: '/shop' },
           { label: 'COLLECTIONS', href: '/shop' },
@@ -147,19 +120,65 @@ export default function OvergroundHomepage() {
           <motion.a
             key={item.label}
             href={item.href}
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: idx * 0.1 }}
-            className="block py-2 hover:text-gray-300 transition"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 * idx, duration: 0.5 }}
+            whileHover={{ y: -2 }}
+            className="hover:text-gray-300 transition"
           >
             {item.label}
           </motion.a>
         ))}
+      </motion.div>
+
+      {/* Icons */}
+      <div className="flex items-center space-x-4">
+        <Search className="w-5 h-5 cursor-pointer hover:text-gray-300 transition hidden sm:block" />
+        <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-gray-300 transition" />
+        <button 
+          className="md:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
-    </motion.div>
-  )}
-</AnimatePresence>
-      </motion.nav>
+    </div>
+  </div>
+
+  {/* Mobile Menu with Animation */}
+  <AnimatePresence>
+    {mobileMenuOpen && (
+      <motion.div 
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ height: 'auto', opacity: 1 }}
+        exit={{ height: 0, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="md:hidden border-t border-white/10 overflow-hidden"
+      >
+        <div className="px-4 py-4 space-y-3">
+          {[
+            { label: 'NEW IN', href: '/shop' },
+            { label: 'COLLECTIONS', href: '/shop' },
+            { label: 'SHOP', href: '/shop' },
+            { label: 'ABOUT', href: '/about' },
+          ].map((item, idx) => (
+            <motion.a
+              key={item.label}
+              href={item.href}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: idx * 0.1 }}
+              className="block py-2 hover:text-gray-300 transition"
+            >
+              {item.label}
+            </motion.a>
+          ))}
+        </div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+</motion.nav>
+
 
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-screen mt-16 overflow-hidden">
